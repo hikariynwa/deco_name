@@ -1,0 +1,11 @@
+<% content_for :title, "New deco name" %>
+
+<h1>New deco name</h1>
+
+<%= render "form", deco_name: @deco_name %>
+
+<br>
+
+<div>
+  <%= link_to "Back to deco names", deco_names_path %>
+</div>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @deco_name %>
+
+<div>
+  <%= link_to "Edit this deco name", edit_deco_name_path(@deco_name) %> |
+  <%= link_to "Back to deco names", deco_names_path %>
+
+  <%= button_to "Destroy this deco name", @deco_name, method: :delete %>
+</div>

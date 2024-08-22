@@ -1,0 +1,2 @@
+class DecoName < ApplicationRecord
+end
