@@ -65,6 +65,8 @@ class DecoNamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def deco_name_params
-      params.require(:deco_name).permit(:name)
+      params.require(:deco_name).permit(:name).tap do |deco_name|
+        deco_name[:name] = "x#{deco_name[:name]}x"
+      end
     end
 end
