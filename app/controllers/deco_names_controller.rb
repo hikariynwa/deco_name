@@ -65,8 +65,14 @@ class DecoNamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def deco_name_params
+      symbols = ['†', '卍', 'x', '★', '§', '*', '=', '✙', '刹', '༻', '۞', 'փ', '༒', '¢', '⌘', '∮', '✧', '♃', '♆']
+
       params.require(:deco_name).permit(:name).tap do |deco_name|
-        deco_name[:name] = "x#{deco_name[:name]}x"
+        # ランダムな記号を選択
+        random_symbol = symbols.sample
+
+        # 名前をランダムな記号で囲む
+        deco_name[:name] = "#{random_symbol}#{deco_name[:name]}#{random_symbol}"
       end
     end
 end
