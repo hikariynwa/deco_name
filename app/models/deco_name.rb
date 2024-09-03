@@ -20,7 +20,7 @@ class DecoName < ApplicationRecord
     # 文字数に応じて位置を調整
     text_length = self.name.length
     # 絵文字の位置を調整するためのオフセット（文字数に応じて変化）
-    offset = text_length * 27  # 1文字あたり25ピクセル程度のオフセット
+    offset = text_length * 29  # 1文字あたり25ピクセル程度のオフセット
 
     # app/assets/imagesに保存された画像のパス
     image_paths = Dir[Rails.root.join('app/assets/images/*.png')]  # 例: PNGファイルをすべて取得
