@@ -25,7 +25,8 @@ class DecoNamesController < ApplicationController
 
     respond_to do |format|
       if @deco_name.save
-        format.html { redirect_to deco_name_url(@deco_name), notice: "Deco name was successfully created." }
+        # デコレーションされた名前が描かれた画像を表示するための処理
+        format.html { redirect_to @deco_name, notice: "Deco name was successfully created." }
         format.json { render :show, status: :created, location: @deco_name }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -65,14 +66,6 @@ class DecoNamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def deco_name_params
-      symbols = ['†', '卍', 'x', '★', '§', '*', '=', '✙', '刹', '༻', '۞', 'փ', '༒', '¢', '⌘', '∮', '✧', '♃', '♆']
-
-      params.require(:deco_name).permit(:name).tap do |deco_name|
-        # ランダムな記号を選択
-        random_symbol = symbols.sample
-
-        # 名前をランダムな記号で囲む
-        deco_name[:name] = "#{random_symbol}#{deco_name[:name]}#{random_symbol}"
-      end
+      params.require(:deco_name).permit(:name)
     end
 end
