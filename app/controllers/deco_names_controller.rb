@@ -50,6 +50,11 @@ class DecoNamesController < ApplicationController
 
   # DELETE /deco_names/1 or /deco_names/1.json
   def destroy
+    if @deco_name.image_path.present?
+      image_full_path = Rails.root.join('public', @deco_name.image_path)
+      File.delete(image_full_path) if File.exist?(image_full_path)
+    end
+
     @deco_name.destroy!
 
     respond_to do |format|
