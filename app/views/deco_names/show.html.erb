@@ -1,6 +1,13 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @deco_name %>
+<!-- 生成された画像を表示 -->
+<div>
+  <% if @deco_name.image_path.present? %>
+    <%= image_tag "/#{@deco_name.image_path}", alt: @deco_name.name %>
+  <% else %>
+    <p>No image available</p>
+  <% end %>
+</div>
 
 <div>
   <%= link_to "Edit this deco name", edit_deco_name_path(@deco_name) %> |
