@@ -2,7 +2,7 @@
 
 <% content_for :title, "Deco names" %>
 
-<h1>Deco names</h1>
+<h1 style="text-align: center;">Deco names</h1>
 
 <div id="deco_names">
   <% @deco_names.each do |deco_name| %>
@@ -13,4 +13,6 @@
   <% end %>
 </div>
 
-<%= link_to "New deco name", new_deco_name_path %>
+<div class="text-center">
+  <%= link_to "名前をデコる", new_deco_name_path, class: "btn bg-orange-500 hover:bg-orange-600 text-white" %>
+</div>

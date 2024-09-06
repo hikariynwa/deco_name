@@ -4,7 +4,7 @@ class DecoName < ApplicationRecord
   private
 
   def add_name_to_image
-    symbols = ['†', 'x', '★', '§', '*', '=', '✙', '刹', '༻', '۞', 'փ', '༒', '¢', '⌘', '∮', '✧', '♃', '♆']
+    symbols = ['†', 'x', '★', '§', '*', '=', '✙', '¢', '∮', '✧', '♃', '♆']
     random_symbol = symbols.sample
     decorated_name = "#{random_symbol}#{self.name}#{random_symbol}"
 
@@ -41,7 +41,7 @@ class DecoName < ApplicationRecord
     image.combine_options do |c|
       c.gravity "center"
       c.pointsize "50"
-      c.font "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"  # 絵文字用フォント
+      c.font "/usr/share/fonts/truetype/noto/NotoSansSymbols-Regular.ttf"  # 絵文字用フォント
       c.fill "white"
       c.draw "text -#{offset},0 '#{random_symbol}'"  # 左側に1つ目の絵文字を描画
       c.draw "text #{offset},0 '#{random_symbol}'"   # 右側に2つ目の絵文字を描画
