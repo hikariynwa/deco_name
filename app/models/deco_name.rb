@@ -8,7 +8,7 @@ class DecoName < ApplicationRecord
     random_symbol = symbols.sample
     decorated_name = "#{random_symbol}#{self.name}#{random_symbol}"
 
-    # デバッグ用出力
+    # デバッグ用出力,後で消す
     puts "Decorated name before escaping: #{decorated_name}"
     puts "Self.name: #{self.name}"
 
@@ -17,34 +17,36 @@ class DecoName < ApplicationRecord
     # デバッグ用出力
     puts "Decorated name after escaping: #{escaped_name}"
 
-    # 文字数に応じて位置を調整
+    # 文字数に応じて位置を調整する。
     text_length = self.name.length
-    # 絵文字の位置を調整するためのオフセット（文字数に応じて変化）
-    offset = text_length * 29  # 1文字あたり25ピクセル程度のオフセット
+
+    offset = text_length * 29  # 1文字あたり25ピクセル程度のオフセットらしい。
 
     # app/assets/imagesに保存された画像のパス
-    image_paths = Dir[Rails.root.join('app/assets/images/*.png')]  # 例: PNGファイルをすべて取得
+    image_paths = Dir[Rails.root.join('app/assets/images/*.png')]  # 画像の取得
     random_image_path = image_paths.sample
 
     image = MiniMagick::Image.open(random_image_path)
 
-    # 文字部分を表示させる
-    image.combine_options do |c|
-      c.gravity "center"
-      c.pointsize "50"
-      c.font "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"  # 日本語用フォント
-      c.fill "white"
-      c.draw "text 0,0 '#{self.name}'"
+    # MiniMagick::Tool::Mogrifyを使って文字部分を描画
+    MiniMagick::Tool::Mogrify.new do |mogrify|
+      mogrify.gravity "center"
+      mogrify.pointsize "50"
+      mogrify.font "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+      mogrify.fill "white"
+      mogrify.draw "text 0,0 '#{self.name}'"
+      mogrify << image.path
     end
 
     # 絵文字部分を描画
-    image.combine_options do |c|
-      c.gravity "center"
-      c.pointsize "50"
-      c.font "/usr/share/fonts/truetype/noto/NotoSansSymbols-Regular.ttf"  # 絵文字用フォント
-      c.fill "white"
-      c.draw "text -#{offset},0 '#{random_symbol}'"  # 左側に1つ目の絵文字を描画
-      c.draw "text #{offset},0 '#{random_symbol}'"   # 右側に2つ目の絵文字を描画
+    MiniMagick::Tool::Mogrify.new do |mogrify|
+      mogrify.gravity "center"
+      mogrify.pointsize "50"
+      mogrify.font "/usr/share/fonts/truetype/noto/NotoSansSymbols-Regular.ttf"
+      mogrify.fill "white"
+      mogrify.draw "text -#{offset},0 '#{random_symbol}'"  # 左側に絵文字
+      mogrify.draw "text #{offset},0 '#{random_symbol}'"   # 右側に絵文字
+      mogrify << image.path
     end
 
     # 生成された画像を保存するパス
